@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
-import { Search } from 'lucide-react';
 
 // Mock data - in the future this will be replaced with imported CSV data
 const mockData = {
@@ -30,12 +28,12 @@ const mockData = {
   ]
 };
 
-const AIExposureVisualization = () => {
+function App() {
   const [dataType, setDataType] = useState('occupations');
   const [exposureType, setExposureType] = useState('negative');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('default');
-
+  
   // Colors for the bars
   const negativeColors = ['#ffcccb', '#ff6666', '#ff0000', '#cc0000', '#8b0000'];
   const positiveColors = ['#ccffcc', '#66ff66', '#00ff00', '#00cc00', '#008b00'];
@@ -72,94 +70,154 @@ const AIExposureVisualization = () => {
     );
   }
 
-  const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-      const data = payload[0].payload;
-      return (
-        <div className="bg-white p-4 rounded shadow-md border border-gray-200">
-          <p className="font-bold">{data.name}</p>
-          <p>
-            {exposureType === 'negative' ? 'Risk of Replacement: ' : 'Potential Enhancement: '}
-            <span className="font-bold">{exposureType === 'negative' ? data.negativeExposure : data.positiveExposure}%</span>
-          </p>
-        </div>
-      );
-    }
-    return null;
-  };
-
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-gray-50 rounded-lg shadow-md">
-      <h1 className="text-3xl font-bold text-center mb-4">AI Exposure Visualization</h1>
-      <p className="text-center mb-6">
+    <div style={{
+      maxWidth: '800px',
+      margin: '0 auto',
+      padding: '20px',
+      backgroundColor: '#f9f9f9',
+      borderRadius: '10px',
+      boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+    }}>
+      <h1 style={{
+        fontSize: '24px',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: '20px'
+      }}>AI Exposure Visualization</h1>
+      <p style={{
+        textAlign: 'center',
+        marginBottom: '30px'
+      }}>
         Explore how different {dataType} are impacted by AI
       </p>
       
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-white p-4 rounded shadow">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+        gap: '15px',
+        marginBottom: '30px'
+      }}>
+        <div style={{
+          backgroundColor: 'white',
+          padding: '15px',
+          borderRadius: '5px',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+        }}>
+          <label style={{
+            display: 'block',
+            fontSize: '14px',
+            fontWeight: '500',
+            marginBottom: '10px'
+          }}>
             View By
           </label>
-          <div className="flex gap-2">
+          <div style={{display: 'flex', gap: '10px'}}>
             <button
               onClick={() => setDataType('occupations')}
-              className={`flex-1 py-2 px-3 rounded text-sm font-medium ${
-                dataType === 'occupations'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-              }`}
+              style={{
+                flex: 1,
+                padding: '8px',
+                borderRadius: '5px',
+                border: 'none',
+                backgroundColor: dataType === 'occupations' ? '#3b82f6' : '#e5e7eb',
+                color: dataType === 'occupations' ? 'white' : '#1f2937',
+                fontWeight: '500',
+                cursor: 'pointer'
+              }}
             >
               Occupations
             </button>
             <button
               onClick={() => setDataType('majors')}
-              className={`flex-1 py-2 px-3 rounded text-sm font-medium ${
-                dataType === 'majors'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-              }`}
+              style={{
+                flex: 1,
+                padding: '8px',
+                borderRadius: '5px',
+                border: 'none',
+                backgroundColor: dataType === 'majors' ? '#3b82f6' : '#e5e7eb',
+                color: dataType === 'majors' ? 'white' : '#1f2937',
+                fontWeight: '500',
+                cursor: 'pointer'
+              }}
             >
               College Majors
             </button>
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded shadow">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+        <div style={{
+          backgroundColor: 'white',
+          padding: '15px',
+          borderRadius: '5px',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+        }}>
+          <label style={{
+            display: 'block',
+            fontSize: '14px',
+            fontWeight: '500',
+            marginBottom: '10px'
+          }}>
             Exposure Type
           </label>
-          <div className="flex gap-2">
+          <div style={{display: 'flex', gap: '10px'}}>
             <button
               onClick={() => setExposureType('negative')}
-              className={`flex-1 py-2 px-3 rounded text-sm font-medium ${
-                exposureType === 'negative'
-                  ? 'bg-red-600 text-white'
-                  : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-              }`}
+              style={{
+                flex: 1,
+                padding: '8px',
+                borderRadius: '5px',
+                border: 'none',
+                backgroundColor: exposureType === 'negative' ? '#ef4444' : '#e5e7eb',
+                color: exposureType === 'negative' ? 'white' : '#1f2937',
+                fontWeight: '500',
+                cursor: 'pointer'
+              }}
             >
               Replacement Risk
             </button>
             <button
               onClick={() => setExposureType('positive')}
-              className={`flex-1 py-2 px-3 rounded text-sm font-medium ${
-                exposureType === 'positive'
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-              }`}
+              style={{
+                flex: 1,
+                padding: '8px',
+                borderRadius: '5px',
+                border: 'none',
+                backgroundColor: exposureType === 'positive' ? '#10b981' : '#e5e7eb',
+                color: exposureType === 'positive' ? 'white' : '#1f2937',
+                fontWeight: '500',
+                cursor: 'pointer'
+              }}
             >
-              Enhancement Potential
+              Enhancement
             </button>
           </div>
         </div>
         
-        <div className="bg-white p-4 rounded shadow">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+        <div style={{
+          backgroundColor: 'white',
+          padding: '15px',
+          borderRadius: '5px',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+        }}>
+          <label style={{
+            display: 'block',
+            fontSize: '14px',
+            fontWeight: '500',
+            marginBottom: '10px'
+          }}>
             Sort By
           </label>
           <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            style={{
+              width: '100%',
+              padding: '8px',
+              borderRadius: '5px',
+              border: '1px solid #d1d5db',
+              outline: 'none'
+            }}
           >
             <option value="default">Default Order</option>
             <option value="lowest">Lowest Exposure First</option>
@@ -167,72 +225,107 @@ const AIExposureVisualization = () => {
           </select>
         </div>
         
-        <div className="bg-white p-4 rounded shadow">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+        <div style={{
+          backgroundColor: 'white',
+          padding: '15px',
+          borderRadius: '5px',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+        }}>
+          <label style={{
+            display: 'block',
+            fontSize: '14px',
+            fontWeight: '500',
+            marginBottom: '10px'
+          }}>
             Search
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search size={16} className="text-gray-400" />
-            </div>
+          <div style={{position: 'relative'}}>
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder={`Search ${dataType}...`}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              style={{
+                width: '100%',
+                padding: '8px 8px 8px 30px',
+                borderRadius: '5px',
+                border: '1px solid #d1d5db',
+                outline: 'none'
+              }}
             />
+            <div style={{
+              position: 'absolute',
+              left: '10px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: '#9ca3af'
+            }}>
+              🔍
+            </div>
           </div>
         </div>
       </div>
       
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart
-            data={data}
-            layout="vertical"
-            margin={{ top: 20, right: 30, left: 100, bottom: 20 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
-            <XAxis 
-              type="number" 
-              domain={[0, 100]} 
-              tickFormatter={(value) => `${value}%`}
-            />
-            <YAxis 
-              dataKey="name" 
-              type="category" 
-              width={90}
-              tick={{ fontSize: 12 }}
-            />
-            <Tooltip content={<CustomTooltip />} />
-            <Legend />
-            <Bar
-              dataKey={exposureType === 'negative' ? 'negativeExposure' : 'positiveExposure'}
-              name={exposureType === 'negative' ? 'Replacement Risk' : 'Enhancement Potential'}
-            >
-              {data.map((entry, index) => (
-                <Cell 
-                  key={`cell-${index}`} 
-                  fill={getColor(exposureType === 'negative' ? entry.negativeExposure : entry.positiveExposure)}
-                />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+      <div style={{
+        backgroundColor: 'white',
+        padding: '20px',
+        borderRadius: '10px',
+        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+        marginBottom: '20px'
+      }}>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px'
+        }}>
+          {data.map((item, index) => {
+            const value = exposureType === 'negative' ? item.negativeExposure : item.positiveExposure;
+            return (
+              <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ width: '120px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {item.name}
+                </div>
+                <div style={{ flex: 1, height: '24px', backgroundColor: '#f3f4f6', borderRadius: '4px', overflow: 'hidden' }}>
+                  <div
+                    style={{
+                      height: '100%',
+                      width: `${value}%`,
+                      backgroundColor: getColor(value),
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      paddingRight: '8px',
+                      color: value > 50 ? 'white' : 'black',
+                      fontWeight: '500',
+                      fontSize: '14px'
+                    }}
+                  >
+                    {value}%
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
       
-      <div className="mt-6 p-4 bg-blue-50 rounded-md border border-blue-200">
-        <h3 className="font-bold mb-2">About This Visualization</h3>
-        <p className="mb-2">This tool shows two types of AI exposure:</p>
-        <ul className="list-disc pl-6 mb-2">
-          <li><span className="font-semibold text-red-600">Replacement Risk:</span> The percentage of tasks that could potentially be replaced by AI.</li>
-          <li><span className="font-semibold text-green-600">Enhancement Potential:</span> The potential for AI to enhance productivity and capabilities in this field.</li>
+      <div style={{
+        padding: '15px',
+        backgroundColor: '#eff6ff',
+        borderRadius: '5px',
+        border: '1px solid #bfdbfe',
+        marginTop: '20px'
+      }}>
+        <h3 style={{fontWeight: 'bold', marginBottom: '10px'}}>About This Visualization</h3>
+        <p style={{marginBottom: '10px'}}>This tool shows two types of AI exposure:</p>
+        <ul style={{paddingLeft: '20px', marginBottom: '10px'}}>
+          <li><span style={{fontWeight: '600', color: '#dc2626'}}>Replacement Risk:</span> The percentage of tasks that could potentially be replaced by AI.</li>
+          <li><span style={{fontWeight: '600', color: '#059669'}}>Enhancement Potential:</span> The potential for AI to enhance productivity and capabilities in this field.</li>
         </ul>
-        <p className="text-sm text-gray-600 mt-2">Note: This is simulated data for demonstration purposes.</p>
+        <p style={{fontSize: '14px', color: '#6b7280', marginTop: '10px'}}>Note: This is simulated data for demonstration purposes.</p>
       </div>
     </div>
   );
-};
+}
 
-export default AIExposureVisualization;
+export default App;
