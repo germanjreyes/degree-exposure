@@ -1,33 +1,61 @@
-# AI Exposure Explorer
+# AI Exposure Visualization Tool
 
-The **AI Exposure Explorer** is a beta web application designed to help users explore the potential impact of AI on various occupations and college majors. Using mock data, this tool visualizes two key dimensions of AI impact:
+## Overview
 
-- **Replacement Risk:** The percentage of tasks in a career that could potentially be automated by AI.
-- **Complementary AI:** The degree to which AI might enhance human capabilities within the field.
+This interactive tool visualizes how different occupations and college majors may be impacted by AI technologies. It allows users to explore two key dimensions of AI's potential impact:
 
-> **Note:** This is a beta version that uses simulated data. Future versions will incorporate real-world datasets.
+**Replacement Risk**: The degree to which AI might automate or replace tasks in a particular field
+
+**Complementary AI Potential**: The degree to which AI might enhance human capabilities in a field
 
 ## Features
 
-- **Toggle Views:** Switch easily between Occupations and College Majors.
-- **Sorting & Searching:** Sort data alphabetically, by lowest risk, or highest risk and use the search function to find specific items.
-- **Filtering:**  
-  - **College Majors:** Filter by Field of Study (e.g., Engineering, Natural Science, Social Science, Humanities, Languages).  
-  - **Occupations:** Filter by Sector/Industry (e.g., Healthcare, Technology, Business & Finance, Education, Creative & Media, Service, Manufacturing & Construction, Government & Public Service).
-- **Compare Mode:** Select up to three items for side-by-side comparison.
-- **Detail View:** Click on an item to see additional information and related occupations.
+- Toggle between Occupations and College Majors views
+- Filter college majors by field of study
+- Filter occupations by sector/industry categories
+- Compare up to 2 occupations/majors side-by-side in a dedicated comparison view
+- Detailed analysis for each occupation or major, including:
+    - Visualizations of replacement risk and complementary AI potential
+    - Interpretive analysis of AI impact
+    - For majors: related occupations and their AI exposure levels
+- Search functionality to quickly locate specific majors or occupations
+- Sort options (alphabetical, exposure level)
 
-## Getting Started
+## Technical Details
+The tool is built with React and uses:
 
-### Prerequisites
+- React hooks for state management
+- Dynamic CSS-in-JS styling for responsive design
+- Conditional rendering based on selected view modes
+- Interactive data visualization with color-coded risk indicators
 
-- Node.js (v12 or later)
-- npm (Node Package Manager)
+## Data Sources
+Currently, the tool uses simulated data.
 
-### Installation
+## Usage
 
-1. **Clone the repository:**
+This tool is designed for:
+- Students making educational and career decisions
+- Career counselors and academic advisors
+- Workforce development professionals
+- Educators developing curriculum aligned with future skills needs
+- Researchers studying AI's impact on labor markets
 
-   ```bash
-   git clone https://github.com/yourusername/your-repo.git
-   cd your-repo
+## Installation
+
+```
+# Clone the repository
+git clone https://github.com/yourusername/ai-exposure-visualization.git
+
+# Navigate to project directory
+cd ai-exposure-visualization
+
+# Install dependencies
+npm install
+
+# Run the development server
+npm start
+```
+
+## Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
