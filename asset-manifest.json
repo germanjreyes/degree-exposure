@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/ai-exposure/static/css/main.e6c13ad2.css",
+    "main.js": "/ai-exposure/static/js/main.4e6188e5.js",
+    "static/js/453.5bfae9ea.chunk.js": "/ai-exposure/static/js/453.5bfae9ea.chunk.js",
+    "index.html": "/ai-exposure/index.html",
+    "main.e6c13ad2.css.map": "/ai-exposure/static/css/main.e6c13ad2.css.map",
+    "main.4e6188e5.js.map": "/ai-exposure/static/js/main.4e6188e5.js.map",
+    "453.5bfae9ea.chunk.js.map": "/ai-exposure/static/js/453.5bfae9ea.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.4e6188e5.js"
+  ]
+}
