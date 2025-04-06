@@ -28,12 +28,25 @@ const mockData = {
   ]
 };
 
-// Add academic degree levels
-const degreePrograms = {
-  "Associate's Degree": ["Nursing", "Accounting", "HR Management", "Marketing"],
-  "Bachelor's Degree": ["Computer Science", "Finance", "Graphic Design", "Education", "Civil Engineering", "Psychology"],
-  "Master's Degree": ["Computer Science", "Finance", "Marketing", "Civil Engineering", "Psychology"],
-  "Doctoral Degree": ["Computer Science", "Education", "Psychology"]
+// Mapping majors to fields of study
+const fieldsOfStudy = {
+  "Engineering": ["Computer Science", "Civil Engineering"],
+  "Natural Science": ["Nursing"],
+  "Social Science": ["Finance", "Education", "Marketing", "HR Management", "Accounting", "Psychology"],
+  "Humanities": ["Graphic Design"],
+  "Languages": [] // Currently no majors assigned
+};
+
+// Mapping occupations to sectors/industries
+const sectors = {
+  "Healthcare": ["Registered Nurse"],
+  "Technology": ["Software Developer"],
+  "Business & Finance": ["Financial Analyst", "Marketing Manager", "HR Specialist", "Accountant"],
+  "Education": ["Elementary Teacher"],
+  "Creative & Media": ["Graphic Designer"],
+  "Service": ["Chef"],
+  "Manufacturing & Construction": ["Civil Engineer"],
+  "Government & Public Service": [] // No matching occupations in current data
 };
 
 function AIExposureVisualization() {
@@ -44,14 +57,16 @@ function AIExposureVisualization() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [compareMode, setCompareMode] = useState(false);
   const [comparedItems, setComparedItems] = useState([]);
-  const [degreeFilter, setDegreeFilter] = useState('all');
+  const [fieldFilter, setFieldFilter] = useState('all'); // For majors
+  const [sectorFilter, setSectorFilter] = useState('all'); // For occupations
   
   // Colors for the bars
   const negativeColors = ['#ffcccb', '#ff6666', '#ff0000', '#cc0000', '#8b0000'];
   const positiveColors = ['#ccffcc', '#66ff66', '#00ff00', '#00cc00', '#008b00'];
 
-  const getColor = (value) => {
-    const colors = exposureType === 'negative' ? negativeColors : positiveColors;
+  // Updated getColor function to accept a type parameter
+  const getColor = (value, type = exposureType) => {
+    const colors = type === 'negative' ? negativeColors : positiveColors;
     if (value < 20) return colors[0];
     if (value < 40) return colors[1];
     if (value < 60) return colors[2];
@@ -61,32 +76,31 @@ function AIExposureVisualization() {
 
   // Filter and sort data
   let data = [...mockData[dataType]];
-  
-  // Apply degree filter for majors
-  if (dataType === 'majors' && degreeFilter !== 'all') {
-    data = data.filter(item => 
-      degreePrograms[degreeFilter].includes(item.name)
-    );
+
+  // Apply filter based on data type
+  if (dataType === 'majors' && fieldFilter !== 'all') {
+    data = data.filter(item => fieldsOfStudy[fieldFilter].includes(item.name));
+  }
+  if (dataType === 'occupations' && sectorFilter !== 'all') {
+    data = data.filter(item => sectors[sectorFilter].includes(item.name));
   }
   
   // Apply search filter
   if (searchTerm) {
-    data = data.filter(item => 
-      item.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    data = data.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
   }
   
   // Apply sorting
   if (sortOrder === 'alphabetical') {
     data.sort((a, b) => a.name.localeCompare(b.name));
   } else if (sortOrder === 'lowest') {
-    data.sort((a, b) => 
-      a[exposureType === 'negative' ? 'negativeExposure' : 'positiveExposure'] - 
+    data.sort((a, b) =>
+      a[exposureType === 'negative' ? 'negativeExposure' : 'positiveExposure'] -
       b[exposureType === 'negative' ? 'negativeExposure' : 'positiveExposure']
     );
   } else if (sortOrder === 'highest') {
-    data.sort((a, b) => 
-      b[exposureType === 'negative' ? 'negativeExposure' : 'positiveExposure'] - 
+    data.sort((a, b) =>
+      b[exposureType === 'negative' ? 'negativeExposure' : 'positiveExposure'] -
       a[exposureType === 'negative' ? 'negativeExposure' : 'positiveExposure']
     );
   }
@@ -94,29 +108,27 @@ function AIExposureVisualization() {
   // Handle item selection
   const handleItemClick = (item) => {
     if (compareMode) {
-      // In compare mode, toggle selection in comparedItems array
       if (comparedItems.find(i => i.name === item.name)) {
-        // Remove if already selected
         setComparedItems(comparedItems.filter(i => i.name !== item.name));
       } else if (comparedItems.length < 3) {
-        // Add if less than 3 items are selected
         setComparedItems([...comparedItems, item]);
       }
     } else {
-      // In regular mode, update selectedItem
       setSelectedItem(selectedItem?.name === item.name ? null : item);
     }
   };
 
-  // Clear comparison when switching data types
+  // Clear selections when switching data types
   useEffect(() => {
     setComparedItems([]);
     setSelectedItem(null);
+    // Reset filters when data type changes
+    setFieldFilter('all');
+    setSectorFilter('all');
   }, [dataType]);
 
   // Get related occupations for a major
   const getRelatedOccupations = (majorName) => {
-    // This is a simple mapping for demonstration
     const mapping = {
       "Computer Science": ["Software Developer"],
       "Nursing": ["Registered Nurse"],
@@ -130,9 +142,7 @@ function AIExposureVisualization() {
       "Psychology": ["HR Specialist"]
     };
     
-    return mockData.occupations.filter(occ => 
-      mapping[majorName] && mapping[majorName].includes(occ.name)
-    );
+    return mockData.occupations.filter(occ => mapping[majorName] && mapping[majorName].includes(occ.name));
   };
 
   return (
@@ -166,6 +176,7 @@ function AIExposureVisualization() {
         gap: '15px',
         marginBottom: '30px'
       }}>
+        {/* View By Section */}
         <div style={{
           backgroundColor: 'white',
           padding: '15px',
@@ -217,6 +228,7 @@ function AIExposureVisualization() {
           </div>
         </div>
         
+        {/* AI Impact Type Section */}
         <div style={{
           backgroundColor: 'white',
           padding: '15px',
@@ -268,6 +280,7 @@ function AIExposureVisualization() {
           </div>
         </div>
         
+        {/* Sort By Section */}
         <div style={{
           backgroundColor: 'white',
           padding: '15px',
@@ -302,6 +315,7 @@ function AIExposureVisualization() {
           </select>
         </div>
         
+        {/* Search Section */}
         <div style={{
           backgroundColor: 'white',
           padding: '15px',
@@ -346,7 +360,7 @@ function AIExposureVisualization() {
         </div>
       </div>
       
-      {/* Degree filter - only show for majors */}
+      {/* Filter Section */}
       {dataType === 'majors' && (
         <div style={{
           marginBottom: '20px',
@@ -362,40 +376,94 @@ function AIExposureVisualization() {
             marginBottom: '10px',
             color: '#444'
           }}>
-            Filter by Degree Level
+            Filter by Field of Study
           </label>
           <div style={{display: 'flex', flexWrap: 'wrap', gap: '10px'}}>
             <button
-              onClick={() => setDegreeFilter('all')}
+              onClick={() => setFieldFilter('all')}
               style={{
                 padding: '8px 12px',
                 borderRadius: '20px',
                 border: 'none',
-                backgroundColor: degreeFilter === 'all' ? '#4b5563' : '#e5e7eb',
-                color: degreeFilter === 'all' ? 'white' : '#1f2937',
+                backgroundColor: fieldFilter === 'all' ? '#4b5563' : '#e5e7eb',
+                color: fieldFilter === 'all' ? 'white' : '#1f2937',
                 fontWeight: '500',
                 cursor: 'pointer',
                 fontSize: '13px'
               }}
             >
-              All Degrees
+              All Fields
             </button>
-            {Object.keys(degreePrograms).map(degree => (
+            {Object.keys(fieldsOfStudy).map(field => (
               <button
-                key={degree}
-                onClick={() => setDegreeFilter(degree)}
+                key={field}
+                onClick={() => setFieldFilter(field)}
                 style={{
                   padding: '8px 12px',
                   borderRadius: '20px',
                   border: 'none',
-                  backgroundColor: degreeFilter === degree ? '#4b5563' : '#e5e7eb',
-                  color: degreeFilter === degree ? 'white' : '#1f2937',
+                  backgroundColor: fieldFilter === field ? '#4b5563' : '#e5e7eb',
+                  color: fieldFilter === field ? 'white' : '#1f2937',
                   fontWeight: '500',
                   cursor: 'pointer',
                   fontSize: '13px'
                 }}
               >
-                {degree}
+                {field}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      {dataType === 'occupations' && (
+        <div style={{
+          marginBottom: '20px',
+          backgroundColor: 'white',
+          padding: '15px',
+          borderRadius: '8px',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+        }}>
+          <label style={{
+            display: 'block',
+            fontSize: '14px',
+            fontWeight: '500',
+            marginBottom: '10px',
+            color: '#444'
+          }}>
+            Filter by Sector/Industry
+          </label>
+          <div style={{display: 'flex', flexWrap: 'wrap', gap: '10px'}}>
+            <button
+              onClick={() => setSectorFilter('all')}
+              style={{
+                padding: '8px 12px',
+                borderRadius: '20px',
+                border: 'none',
+                backgroundColor: sectorFilter === 'all' ? '#4b5563' : '#e5e7eb',
+                color: sectorFilter === 'all' ? 'white' : '#1f2937',
+                fontWeight: '500',
+                cursor: 'pointer',
+                fontSize: '13px'
+              }}
+            >
+              All Sectors
+            </button>
+            {Object.keys(sectors).map(sector => (
+              <button
+                key={sector}
+                onClick={() => setSectorFilter(sector)}
+                style={{
+                  padding: '8px 12px',
+                  borderRadius: '20px',
+                  border: 'none',
+                  backgroundColor: sectorFilter === sector ? '#4b5563' : '#e5e7eb',
+                  color: sectorFilter === sector ? 'white' : '#1f2937',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  fontSize: '13px'
+                }}
+              >
+                {sector}
               </button>
             ))}
           </div>
@@ -428,20 +496,10 @@ function AIExposureVisualization() {
               transition: 'background-color 0.2s ease'
             }}
             onClick={() => {
-              // Toggle compare mode
               const newCompareMode = !compareMode;
               setCompareMode(newCompareMode);
-              
-              // Reset selections when toggling
-              if (newCompareMode) {
-                // When entering compare mode, clear single selection
-                setComparedItems(selectedItem ? [selectedItem] : []);
-                setSelectedItem(null);
-              } else {
-                // When exiting compare mode, clear compared items
-                setSelectedItem(comparedItems.length > 0 ? comparedItems[0] : null);
-                setComparedItems([]);
-              }
+              setComparedItems([]);
+              setSelectedItem(null);
             }}
           >
             <div 
@@ -474,8 +532,7 @@ function AIExposureVisualization() {
         boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
         marginBottom: '20px'
       }}>
-        {compareMode && comparedItems.length > 0 ? (
-          // Comparison view
+        {compareMode && comparedItems.length > 1 ? (
           <div>
             <h3 style={{marginBottom: '15px', fontWeight: 'bold', color: '#333'}}>Comparison View</h3>
             <div style={{
@@ -483,7 +540,6 @@ function AIExposureVisualization() {
               gridTemplateColumns: 'auto 1fr',
               gap: '10px'
             }}>
-              {/* Headers */}
               <div></div>
               <div style={{
                 display: 'grid',
@@ -498,7 +554,6 @@ function AIExposureVisualization() {
                 ))}
               </div>
               
-              {/* Replacement Risk row */}
               <div style={{fontWeight: '500', color: '#dc2626'}}>Replacement Risk</div>
               <div style={{
                 display: 'grid',
@@ -519,7 +574,7 @@ function AIExposureVisualization() {
                       style={{
                         height: '100%',
                         width: `${item.negativeExposure}%`,
-                        backgroundColor: getColor(item.negativeExposure),
+                        backgroundColor: getColor(item.negativeExposure, 'negative'),
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -533,7 +588,6 @@ function AIExposureVisualization() {
                 ))}
               </div>
               
-              {/* Complementary AI row */}
               <div style={{fontWeight: '500', color: '#059669', marginTop: '10px'}}>Complementary AI</div>
               <div style={{
                 display: 'grid',
@@ -554,7 +608,7 @@ function AIExposureVisualization() {
                       style={{
                         height: '100%',
                         width: `${item.positiveExposure}%`,
-                        backgroundColor: positiveColors[Math.floor(item.positiveExposure / 20)],
+                        backgroundColor: getColor(item.positiveExposure, 'positive'),
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -568,7 +622,6 @@ function AIExposureVisualization() {
                 ))}
               </div>
               
-              {/* Actions */}
               <div></div>
               <div style={{
                 display: 'grid',
@@ -597,7 +650,6 @@ function AIExposureVisualization() {
             </div>
           </div>
         ) : (
-          // Regular item list view
           <div style={{
             display: 'flex',
             flexDirection: 'column',
@@ -702,7 +754,6 @@ function AIExposureVisualization() {
             gap: '20px',
             marginBottom: '20px'
           }}>
-            {/* Replacement Risk */}
             <div>
               <div style={{marginBottom: '10px', fontWeight: '500', color: '#dc2626'}}>
                 Replacement Risk
@@ -712,7 +763,7 @@ function AIExposureVisualization() {
                   style={{
                     height: '100%',
                     width: `${selectedItem.negativeExposure}%`,
-                    backgroundColor: getColor(selectedItem.negativeExposure),
+                    backgroundColor: getColor(selectedItem.negativeExposure, 'negative'),
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -725,7 +776,6 @@ function AIExposureVisualization() {
               </div>
             </div>
             
-            {/* Enhancement Potential */}
             <div>
               <div style={{marginBottom: '10px', fontWeight: '500', color: '#059669'}}>
                 Complementary AI Potential
@@ -735,7 +785,7 @@ function AIExposureVisualization() {
                   style={{
                     height: '100%',
                     width: `${selectedItem.positiveExposure}%`,
-                    backgroundColor: positiveColors[Math.floor(selectedItem.positiveExposure / 20)],
+                    backgroundColor: getColor(selectedItem.positiveExposure, 'positive'),
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -749,7 +799,6 @@ function AIExposureVisualization() {
             </div>
           </div>
           
-          {/* Related information based on data type */}
           {dataType === 'majors' && (
             <div>
               <h4 style={{marginBottom: '10px', fontWeight: 'bold', color: '#555'}}>
@@ -783,7 +832,6 @@ function AIExposureVisualization() {
             </div>
           )}
           
-          {/* Interpretation and recommendations */}
           <div style={{
             marginTop: '20px',
             padding: '15px',
@@ -812,8 +860,7 @@ function AIExposureVisualization() {
             <p style={{lineHeight: '1.5', color: '#334155'}}>
               {dataType === 'majors' ? 
                 `Students pursuing ${selectedItem.name} should consider complementary skills that enhance their ability to work alongside AI technologies.` :
-                `Professionals in ${selectedItem.name} should consider upskilling in areas that complement rather than compete with AI capabilities.`
-              }
+                `Professionals in ${selectedItem.name} should consider upskilling in areas that complement rather than compete with AI capabilities.`}
             </p>
           </div>
         </div>
