@@ -41,10 +41,10 @@ This tool is designed for:
 
 ```
 # Clone the repository
-git clone https://github.com/yourusername/ai-exposure-visualization.git
+git clone https://github.com/yourusername/degree-exposure.git
 
 # Navigate to project directory
-cd ai-exposure-visualization
+cd degree-exposure
 
 # Install dependencies
 npm install
