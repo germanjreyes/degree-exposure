@@ -2,11 +2,7 @@
 
 ## Overview
 
-This interactive tool visualizes how different occupations and college majors may be impacted by AI technologies. It allows users to explore two key dimensions of AI's potential impact:
-
-**Replacement Risk**: The degree to which AI might automate or replace tasks in a particular field
-
-**Complementary AI Potential**: The degree to which AI might enhance human capabilities in a field
+This interactive tool visualizes how different occupations and college majors may be impacted by AI technologies. It allows users to explore two key dimensions of AI's potential impact (positive and negative).
 
 ## Features
 
@@ -30,7 +26,7 @@ The tool is built with React and uses:
 - Interactive data visualization with color-coded risk indicators
 
 ## Data Sources
-Currently, the tool uses simulated data.
+Currently, the tool uses simulated data for demonstation purposes.
 
 ## Usage
 

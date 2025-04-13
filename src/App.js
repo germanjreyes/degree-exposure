@@ -259,7 +259,7 @@ function AIExposureVisualization() {
                 transition: 'all 0.2s ease'
               }}
             >
-              Replacement Risk
+              Negatively Affected
             </button>
             <button
               onClick={() => setExposureType('positive')}
@@ -275,7 +275,7 @@ function AIExposureVisualization() {
                 transition: 'all 0.2s ease'
               }}
             >
-              Complementary AI
+              Positively Affected
             </button>
           </div>
         </div>
@@ -519,7 +519,7 @@ function AIExposureVisualization() {
         
         {compareMode && (
           <div style={{fontSize: '14px', color: '#666'}}>
-            Select up to 3 items to compare ({comparedItems.length}/3)
+            Select up to 2 items to compare ({comparedItems.length}/2)
           </div>
         )}
       </div>
@@ -554,7 +554,7 @@ function AIExposureVisualization() {
                 ))}
               </div>
               
-              <div style={{fontWeight: '500', color: '#dc2626'}}>Replacement Risk</div>
+              <div style={{fontWeight: '500', color: '#dc2626'}}>Negatively Affected</div>
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: `repeat(${comparedItems.length}, 1fr)`,
@@ -588,7 +588,7 @@ function AIExposureVisualization() {
                 ))}
               </div>
               
-              <div style={{fontWeight: '500', color: '#059669', marginTop: '10px'}}>Complementary AI</div>
+              <div style={{fontWeight: '500', color: '#059669', marginTop: '10px'}}>Positively Affected</div>
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: `repeat(${comparedItems.length}, 1fr)`,
@@ -756,7 +756,7 @@ function AIExposureVisualization() {
           }}>
             <div>
               <div style={{marginBottom: '10px', fontWeight: '500', color: '#dc2626'}}>
-                Replacement Risk
+                Negatively Affected
               </div>
               <div style={{height: '28px', backgroundColor: '#f3f4f6', borderRadius: '6px', overflow: 'hidden'}}>
                 <div
@@ -778,7 +778,7 @@ function AIExposureVisualization() {
             
             <div>
               <div style={{marginBottom: '10px', fontWeight: '500', color: '#059669'}}>
-                Complementary AI Potential
+                Positively Affected
               </div>
               <div style={{height: '28px', backgroundColor: '#f3f4f6', borderRadius: '6px', overflow: 'hidden'}}>
                 <div
@@ -820,10 +820,10 @@ function AIExposureVisualization() {
                     <div>{occ.name}</div>
                     <div style={{display: 'flex', gap: '15px'}}>
                       <span style={{color: '#dc2626'}}>
-                        Risk: {occ.negativeExposure}%
+                        Negative: {occ.negativeExposure}%
                       </span>
                       <span style={{color: '#059669'}}>
-                        Complementary: {occ.positiveExposure}%
+                        Positive: {occ.positiveExposure}%
                       </span>
                     </div>
                   </div>
@@ -844,17 +844,17 @@ function AIExposureVisualization() {
             </h4>
             <p style={{marginBottom: '10px', lineHeight: '1.5', color: '#334155'}}>
               {selectedItem.negativeExposure > 60 ? 
-                `${selectedItem.name} shows a high replacement risk (${selectedItem.negativeExposure}%), suggesting many tasks in this field could be automated by AI.` :
+                `${selectedItem.name} shows a high negative impact (${selectedItem.negativeExposure}%), suggesting many tasks in this field could be affected by AI.` :
                 selectedItem.negativeExposure > 30 ?
-                  `${selectedItem.name} shows a moderate replacement risk (${selectedItem.negativeExposure}%), with some tasks potentially automatable.` :
-                  `${selectedItem.name} shows a low replacement risk (${selectedItem.negativeExposure}%), indicating resilience to AI automation.`
+                  `${selectedItem.name} shows a moderate negative impact (${selectedItem.negativeExposure}%), with some tasks potentially affected.` :
+                  `${selectedItem.name} shows a low negative impact (${selectedItem.negativeExposure}%), indicating resilience to AI disruption.`
               }
               
               {selectedItem.positiveExposure > 70 ? 
                 ` However, there is significant potential (${selectedItem.positiveExposure}%) for AI to enhance productivity in this field, creating new opportunities.` :
                 selectedItem.positiveExposure > 50 ?
-                  ` There is moderate potential (${selectedItem.positiveExposure}%) for AI to enhance work in this field.` :
-                  ` The potential for AI to enhance work in this field is relatively limited (${selectedItem.positiveExposure}%).`
+                  ` There is moderate potential (${selectedItem.positiveExposure}%) for AI to positively enhance work in this field.` :
+                  ` The potential for AI to positively enhance work in this field is relatively limited (${selectedItem.positiveExposure}%).`
               }
             </p>
             <p style={{lineHeight: '1.5', color: '#334155'}}>
@@ -881,8 +881,8 @@ function AIExposureVisualization() {
             This tool visualizes two dimensions of AI's potential impact on careers and education:
           </p>
           <ul style={{paddingLeft: '20px', marginBottom: '10px', lineHeight: '1.6', color: '#475569'}}>
-            <li><span style={{fontWeight: '600', color: '#dc2626'}}>Replacement Risk:</span> The percentage of tasks that could potentially be automated or replaced by AI technologies.</li>
-            <li><span style={{fontWeight: '600', color: '#059669'}}>Complementary AI:</span> The degree to which AI might complement human capabilities in this field rather than replace human workers.</li>
+            <li><span style={{fontWeight: '600', color: '#dc2626'}}>Negatively Affected:</span> An index showing potential negative exposure to AI-related changes.</li>
+            <li><span style={{fontWeight: '600', color: '#059669'}}>Positively Affected:</span> An index showing potential positive exposure to AI-related changes.</li>
           </ul>
         </div>
         
@@ -890,12 +890,12 @@ function AIExposureVisualization() {
           <h4 style={{fontWeight: '600', fontSize: '16px', marginBottom: '8px', color: '#334155'}}>How To Use This Tool</h4>
           <ul style={{paddingLeft: '20px', marginBottom: '10px', lineHeight: '1.6', color: '#475569'}}>
             <li>Toggle between <strong>Occupations</strong> and <strong>College Majors</strong> to explore different perspectives</li>
-            <li>Use <strong>Compare Mode</strong> to directly compare up to 3 items side by side</li>
+            <li>Use <strong>Compare Mode</strong> to directly compare up to 2 items side by side</li>
             <li>Click on any item to view detailed information and analysis</li>
             <li>For college majors, explore related occupations to understand career path implications</li>
           </ul>
           <p style={{fontSize: '14px', color: '#64748b', marginTop: '15px', fontStyle: 'italic'}}>
-            Note: This visualization uses simulated data based on current research on AI capabilities. Actual impacts may vary as technologies evolve.
+            Note: This visualization uses mock data for demonstration purposes.
           </p>
         </div>
       </div>
