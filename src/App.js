@@ -167,7 +167,7 @@ function AIExposureVisualization() {
         marginBottom: '30px',
         color: '#666'
       }}>
-        Explore how different {dataType} may be impacted by AI technology
+        Explore how different {dataType} may be impacted by generative AI
       </p>
       
       <div style={{
