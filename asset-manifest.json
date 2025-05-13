@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/degree-exposure/static/css/main.e6c13ad2.css",
-    "main.js": "/degree-exposure/static/js/main.e6742724.js",
-    "static/js/453.17414a96.chunk.js": "/degree-exposure/static/js/453.17414a96.chunk.js",
+    "main.js": "/degree-exposure/static/js/main.e65ca450.js",
+    "static/js/453.5a2549c3.chunk.js": "/degree-exposure/static/js/453.5a2549c3.chunk.js",
     "index.html": "/degree-exposure/index.html",
     "main.e6c13ad2.css.map": "/degree-exposure/static/css/main.e6c13ad2.css.map",
-    "main.e6742724.js.map": "/degree-exposure/static/js/main.e6742724.js.map",
-    "453.17414a96.chunk.js.map": "/degree-exposure/static/js/453.17414a96.chunk.js.map"
+    "main.e65ca450.js.map": "/degree-exposure/static/js/main.e65ca450.js.map",
+    "453.5a2549c3.chunk.js.map": "/degree-exposure/static/js/453.5a2549c3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.e6742724.js"
+    "static/js/main.e65ca450.js"
   ]
 }
